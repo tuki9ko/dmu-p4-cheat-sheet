@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   type ChaosBlock,
   type CurseBlock,
@@ -187,6 +187,15 @@ function MacroOutput({ resolved }: { resolved: ResolvedOutput }) {
       setStatus("failed");
     }
   };
+
+  // 結果出力（＝マクロ内容が変化）と同時に自動でクリップボードへコピー。
+  // 入力トグルのクリックというユーザー操作直後に発火するため大抵成功するが、
+  // 権限が無い環境では手動コピー導線にフォールバックする。
+  useEffect(() => {
+    void copy();
+    // text が変わるたびに再コピー
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text]);
 
   const label =
     status === "copied"
