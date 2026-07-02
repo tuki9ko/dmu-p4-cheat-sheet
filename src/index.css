@@ -1,0 +1,419 @@
+:root {
+  --bg: #0e1116;
+  --surface: #171c24;
+  --surface-raised: #212834;
+  --border: #2d3644;
+  --text: #eef2f8;
+  --text-muted: #9aa6b6;
+  --true-blue: #3b82f6;
+  --true-blue-soft: #1e3a5f;
+  --false-red: #ef4444;
+  --false-red-soft: #4a1e22;
+  --early: #f59e0b;
+  --late: #a855f7;
+  --warn: #fbbf24;
+  --action-stack: #38bdf8;
+  --action-spread: #fb923c;
+  --death-light: #7c3aed;
+  --life-light: #34d399;
+
+  --maxw: 720px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Kaku Gothic ProN",
+    "Noto Sans JP", Meiryo, sans-serif;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.app {
+  width: 100%;
+}
+
+/* ===== Header ===== */
+.appheader {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(14, 17, 22, 0.96);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.7rem 1rem;
+}
+
+.appheader__title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.1rem, 4vw, 1.4rem);
+  text-align: center;
+  max-width: var(--maxw);
+  margin-inline: auto;
+}
+
+/* ===== Main layout ===== */
+.main {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: 1rem;
+}
+
+.section-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+}
+
+.section-title {
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
+  margin: 1.2rem 0 0.6rem;
+}
+
+.reset-btn {
+  background: var(--surface-raised);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.7rem;
+}
+
+/* ===== Debuff row ===== */
+.drow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.4rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.drow__label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.drow__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* ===== Segmented toggle ===== */
+.seg {
+  display: inline-flex;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.seg-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 0.45rem 0.7rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.seg-btn:not(:last-child) {
+  border-right: 1px solid var(--border);
+}
+
+.seg-btn.is-active {
+  color: #fff;
+}
+
+.seg-btn.seg-true.is-active {
+  background: var(--true-blue-soft);
+  color: var(--true-blue);
+  box-shadow: inset 0 -3px 0 var(--true-blue);
+}
+.seg-btn.seg-false.is-active {
+  background: var(--false-red-soft);
+  color: var(--false-red);
+  box-shadow: inset 0 -3px 0 var(--false-red);
+}
+.seg-btn.seg-early.is-active {
+  background: color-mix(in srgb, var(--early) 25%, transparent);
+  color: var(--early);
+  box-shadow: inset 0 -3px 0 var(--early);
+}
+.seg-btn.seg-late.is-active {
+  background: color-mix(in srgb, var(--late) 25%, transparent);
+  color: var(--late);
+  box-shadow: inset 0 -3px 0 var(--late);
+}
+.seg-btn.seg-plain.is-active {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: inset 0 -3px 0 var(--text-muted);
+}
+
+/* ===== Validation bar ===== */
+.valbar {
+  margin: 1rem 0;
+  border-radius: 12px;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--border);
+}
+
+.valbar--warn {
+  border-color: var(--warn);
+  background: color-mix(in srgb, var(--warn) 10%, transparent);
+}
+
+.valbar__msg {
+  font-weight: 700;
+}
+.valbar--warn .valbar__msg {
+  color: var(--warn);
+}
+
+/* ===== Timeline ===== */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.tstep {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem 0.7rem;
+}
+
+.tstep--early {
+  border-left-color: var(--early);
+}
+.tstep--late {
+  border-left-color: var(--late);
+}
+
+.tstep__head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.tstep__name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* 真偽オーブは見出しの右端へ寄せる */
+.tstep__head .ticon {
+  margin-left: auto;
+}
+
+/* 加速度爆弾(先頭の重要ブロック) */
+.tstep--accel {
+  border-left-color: var(--false-red);
+  background: color-mix(in srgb, var(--false-red) 7%, var(--surface));
+}
+
+/* ===== デバフ/真偽アイコン(assets/) ===== */
+.dicon {
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  object-fit: cover;
+  flex: none;
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.ticon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: none;
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.seg-btn__icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  object-fit: cover;
+  margin-right: 0.3rem;
+  vertical-align: middle;
+}
+
+/* ===== Action badge ===== */
+.action-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 6px;
+  padding: 0.2rem 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--abc);
+  background: color-mix(in srgb, var(--abc) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--abc) 45%, transparent);
+}
+
+.action-badge__icon {
+  font-size: 0.95em;
+}
+
+.action-badge--big {
+  font-size: clamp(1.2rem, 6vw, 1.8rem);
+  padding: 0.5rem 0.9rem;
+  border-radius: 12px;
+}
+
+.results {
+  margin-top: 0.5rem;
+}
+
+/* ===== Header sub ===== */
+.appheader__sub {
+  margin: 0;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  max-width: var(--maxw);
+  margin-inline: auto;
+}
+
+/* ===== Global input panel ===== */
+.ginput {
+  display: flex;
+  flex-direction: column;
+}
+
+.ginput .drow:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.valbar__hint {
+  margin: 0.4rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+/* ===== Input summary bar ===== */
+.summarybar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.8rem 0;
+}
+
+.schip {
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ===== Self-judge step ===== */
+.tstep--selfjudge {
+  border-left-color: var(--warn);
+}
+
+.selfjudge-note {
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+/* ===== Water / FL action cells ===== */
+.wf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.wf-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+}
+
+.wf-cell__tag {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.note {
+  margin-top: 0.5rem;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.tstep__single {
+  display: flex;
+}
+
+/* ===== Macro output ===== */
+.macro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.macro__text {
+  width: 100%;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.macro__copy {
+  align-self: flex-start;
+  background: var(--true-blue);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+}

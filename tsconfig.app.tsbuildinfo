@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/icons.ts","./src/main.tsx","./src/state.ts","./src/vite-env.d.ts","./src/components/Badges.tsx","./src/components/GlobalInputPanel.tsx","./src/components/Results.tsx","./src/components/Toggles.tsx","./src/logic/globalInput.ts","./src/logic/macro.ts","./src/logic/types.ts"],"version":"5.9.3"}

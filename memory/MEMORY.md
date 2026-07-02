@@ -1,0 +1,3 @@
+- [細かい確認を避ける](avoid-frequent-questions.md) — ユーザーはいちいち聞かれるのを嫌う、デフォルトで進める
+- [プロジェクト現状](project-status.md) — カンペアプリの現在地と次の仕様変更予定（未コミット）
+- [仕様番号をUIに出さない](no-spec-section-numbers-in-ui.md) — requires.mdのドット番号(2.3等)は表示しない
