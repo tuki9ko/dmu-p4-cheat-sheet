@@ -46,7 +46,7 @@ function InputSummaryBar({
           kind={resolved.chaos.early.kind}
           label={kindJa(resolved.chaos.early.kind)}
         />
-        <TruthIcon truth={input.honooTsunamiTruth} />
+        <TruthIcon truth={input.fireTruth} />
       </span>
       <span className="schip">
         GC2 <TruthIcon truth={input.gc2Truth} />
@@ -56,7 +56,7 @@ function InputSummaryBar({
           kind={resolved.chaos.late.kind}
           label={kindJa(resolved.chaos.late.kind)}
         />
-        <TruthIcon truth={input.chaos15Truth} />
+        <TruthIcon truth={input.waterTruth} />
       </span>
     </div>
   );

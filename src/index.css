@@ -320,6 +320,11 @@ button {
   padding-top: 0;
 }
 
+/* GCカードと混沌カードの間隔 */
+.ginput + .ginput {
+  margin-top: 0.8rem;
+}
+
 .valbar__hint {
   margin: 0.4rem 0 0;
   font-size: 0.85rem;

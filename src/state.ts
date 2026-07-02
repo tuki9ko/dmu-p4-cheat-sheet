@@ -1,9 +1,5 @@
 import { type Timing, type Truth } from "./logic/types";
-import {
-  type ChaosSourceKind,
-  type GlobalInput,
-  emptyGlobalInput,
-} from "./logic/globalInput";
+import { type GlobalInput, emptyGlobalInput } from "./logic/globalInput";
 
 export function initialState(): GlobalInput {
   return emptyGlobalInput();
@@ -14,10 +10,9 @@ export function initialState(): GlobalInput {
 export type Action =
   | { type: "setGc1Truth"; value: Truth | null }
   | { type: "setGc1WaterTiming"; value: Timing | null }
-  | { type: "setHonooTsunamiKind"; value: ChaosSourceKind | null }
-  | { type: "setHonooTsunamiTruth"; value: Truth | null }
+  | { type: "setFireTruth"; value: Truth | null }
   | { type: "setGc2Truth"; value: Truth | null }
-  | { type: "setChaos15Truth"; value: Truth | null }
+  | { type: "setWaterTruth"; value: Truth | null }
   | { type: "reset" };
 
 export function reducer(state: GlobalInput, action: Action): GlobalInput {
@@ -26,14 +21,12 @@ export function reducer(state: GlobalInput, action: Action): GlobalInput {
       return { ...state, gc1Truth: action.value };
     case "setGc1WaterTiming":
       return { ...state, gc1WaterTiming: action.value };
-    case "setHonooTsunamiKind":
-      return { ...state, honooTsunamiKind: action.value };
-    case "setHonooTsunamiTruth":
-      return { ...state, honooTsunamiTruth: action.value };
+    case "setFireTruth":
+      return { ...state, fireTruth: action.value };
     case "setGc2Truth":
       return { ...state, gc2Truth: action.value };
-    case "setChaos15Truth":
-      return { ...state, chaos15Truth: action.value };
+    case "setWaterTruth":
+      return { ...state, waterTruth: action.value };
     case "reset":
       return emptyGlobalInput();
     default:

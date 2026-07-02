@@ -7,27 +7,24 @@ import {
   RESOLVERS,
 } from "./types";
 
-// 1.3 で来た全体攻撃の種別(ほのお=炎 / つなみ=水)
-export type ChaosSourceKind = "fire" | "water";
-
-// 全6項目。デフォルトは全て null(未選択)。
+// 全5項目。デフォルトは全て null(未選択)。
+// 混沌は「付与順(1.3/1.5)はランダムだが必ず炎から発動する」ため、
+// 付与順や種別を入力させず、炎の真偽・水の真偽を直接入力させる(炎=早/水=遅で確定)。
 export interface GlobalInput {
   gc1Truth: Truth | null; // GC1(1.2) 真偽
   gc1WaterTiming: Timing | null; // GC1 水圧縮の早/遅(=GC1 FLも同じ)
-  honooTsunamiKind: ChaosSourceKind | null; // 1.3 種別(炎/水)
-  honooTsunamiTruth: Truth | null; // 1.3 真偽(=早い混沌の真偽)
+  fireTruth: Truth | null; // 混沌の炎の真偽(=早い混沌。炎は必ず先に発動)
   gc2Truth: Truth | null; // GC2(1.4) 真偽
-  chaos15Truth: Truth | null; // 1.5 真偽(=遅い混沌の真偽)
+  waterTruth: Truth | null; // 混沌の水の真偽(=遅い混沌。水は必ず後に発動)
 }
 
 export function emptyGlobalInput(): GlobalInput {
   return {
     gc1Truth: null,
     gc1WaterTiming: null,
-    honooTsunamiKind: null,
-    honooTsunamiTruth: null,
+    fireTruth: null,
     gc2Truth: null,
-    chaos15Truth: null,
+    waterTruth: null,
   };
 }
 
@@ -35,20 +32,18 @@ export function emptyGlobalInput(): GlobalInput {
 export interface FilledGlobalInput {
   gc1Truth: Truth;
   gc1WaterTiming: Timing;
-  honooTsunamiKind: ChaosSourceKind;
-  honooTsunamiTruth: Truth;
+  fireTruth: Truth;
   gc2Truth: Truth;
-  chaos15Truth: Truth;
+  waterTruth: Truth;
 }
 
 export function isFilled(i: GlobalInput): i is GlobalInput & FilledGlobalInput {
   return (
     i.gc1Truth !== null &&
     i.gc1WaterTiming !== null &&
-    i.honooTsunamiKind !== null &&
-    i.honooTsunamiTruth !== null &&
+    i.fireTruth !== null &&
     i.gc2Truth !== null &&
-    i.chaos15Truth !== null
+    i.waterTruth !== null
   );
 }
 
@@ -113,9 +108,9 @@ export function resolveGlobal(i: FilledGlobalInput): ResolvedOutput {
   const earlyWFTruth = truthOf(earlySrc);
   const lateWFTruth = truthOf(lateSrc);
 
-  // 混沌種別: 早い混沌(2.5)=1.3の種別 / 遅い混沌(2.8)=その逆(1.5の種別)
-  const earlyKind = i.honooTsunamiKind === "fire" ? "chaosFire" : "chaosWater";
-  const lateKind = earlyKind === "chaosFire" ? "chaosWater" : "chaosFire";
+  // 混沌種別: 炎は必ず先に発動するため 早い混沌(2.5)=炎 / 遅い混沌(2.8)=水 で固定。
+  const earlyKind = "chaosFire" as const;
+  const lateKind = "chaosWater" as const;
 
   return {
     waterFork: {
@@ -155,14 +150,14 @@ export function resolveGlobal(i: FilledGlobalInput): ResolvedOutput {
       early: {
         timing: "early",
         kind: earlyKind,
-        truth: i.honooTsunamiTruth,
-        action: RESOLVERS[earlyKind](i.honooTsunamiTruth),
+        truth: i.fireTruth,
+        action: RESOLVERS[earlyKind](i.fireTruth),
       },
       late: {
         timing: "late",
         kind: lateKind,
-        truth: i.chaos15Truth,
-        action: RESOLVERS[lateKind](i.chaos15Truth),
+        truth: i.waterTruth,
+        action: RESOLVERS[lateKind](i.waterTruth),
       },
     },
     selfJudge: {
